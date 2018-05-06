@@ -1,0 +1,13 @@
+[![status](https://travis-ci.org/premek/laugh-grow-fat.svg)](https://travis-ci.org/premek/laugh-grow-fat)
+
+[Run online](https://premek.github.io/laugh-grow-fat/) - experimental
+
+# Laugh & Grow Fat
+Inspired by [this](http://famicase.com/17/softs/076.html) and made for [LCD-Jam](https://itch.io/jam/lcd-jam). 
+
+## Credits
+Tasty Icons Free — Hand-Drawn Food Icons created by [Olly Holovchenko](http://handdrawngoods.com), 2015, licensed under a
+Creative Commons Attribution 2.5 License.
+
+Sound & music played on Teenage Engineering PO-20 Arcade
+

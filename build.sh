@@ -3,6 +3,7 @@
 set -x
 
 P="laugh-grow-fat"
+T="Laugh and Grow Fat"
 
 LVU="11.1"
 LV=$LVU".0"
@@ -74,16 +75,20 @@ cd target
 rm -rf love.js *-web*
 git clone https://github.com/TannerRogalsky/love.js.git
 cd love.js
-git checkout 6fa910c2a28936c3ec4eaafb014405a765382e08
+git checkout a74d9c862e9d9671a100a5565f6eb40411706843
 git submodule update --init --recursive
+cd ..
 
-cd release-compatibility
-python ../emscripten/tools/file_packager.py game.data --preload ../../../target/src/@/ --js-output=game.js
-python ../emscripten/tools/file_packager.py game.data --preload ../../../target/src/@/ --js-output=game.js
+cp -r love.js/src/release/ "$P-web"
+cd "$P-web"
+sed -ie 's/{{memory}}/16777216/' index.html
+sed -ie "s/{{title}}/$T/" index.html
+sed -ie "s/{{arguments}}//" index.html
+python ../love.js/emscripten/tools/file_packager.py game.data --preload ../src/@/ --js-output=game.js
+python ../love.js/emscripten/tools/file_packager.py game.data --preload ../src/@/ --js-output=game.js
 #yes, two times!
 # python -m SimpleHTTPServer 8000
-cd ../..
-cp -r love.js/release-compatibility "$P-web"
+cd ..
 zip -9 -r - "$P-web" > "${P}-web.zip"
 # target/$P-web/ goes to webserver
 fi

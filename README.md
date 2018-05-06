@@ -6,7 +6,7 @@ Inspired by [this](http://famicase.com/17/softs/076.html) and made for [LCD-Jam]
 
 **[Download here](../../releases)**
 
-On windows download the zip file, unpack and run the .exe. On linux/mac you will need [LÖVE](https://love2d.org/) installed and then download the .love file and double click it or run with `love enjoy.love`.
+On windows download the zip file, unpack and run the .exe. On linux/mac you will need [LÖVE](https://love2d.org/) installed and then download the .love file and double click it or run with `love laugh-grow-fat.love`.
 
 
 ![screenshot](https://pbs.twimg.com/media/DcdY_BVX0AYg4kT.jpg:small)

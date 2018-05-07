@@ -5,9 +5,18 @@ set -x
 P="laugh-grow-fat"
 T="Laugh and Grow Fat"
 
+#version from git - first char has to be number
+V="`git describe --tags`"
+until [ "${V:0:1}" -eq "${V:0:1}" ] 2>/dev/null; do V="${V:1}"; done
+if test -z "$V"; then V="snapshot"; fi;
+
+U="https://github.com/premek/$P"
+E="premysl.vyhnal+debian@gmail.com"
+A="premek"
+UTI="com.github.premek.$P"
+
 LVU="11.1"
-LV=$LVU".0"
-LZ="https://bitbucket.org/rude/love/downloads/love-${LVU}-win32.zip"
+LZ="https://bitbucket.org/rude/love/downloads/love-${LV}.0-win32.zip"
 
 
 ### clean
@@ -39,19 +48,19 @@ fi
 
 find . -iname "*.lua" | xargs luac -p || { echo 'luac parse test failed' ; exit 1; }
 
+
 mkdir "target"
 
-
 ### .love
+love-release -t "$P" target/ src/
 
-cp -r src target
-cd target/src
+### .deb
+love-release -D -p "$P" -t "$T" -u "$U" -v "$V" -d "$T" -a "$A" -e "$E" target/ src/
 
-zip -9 -r - . > "../${P}.love"
-cd -
+### MacOS
+love-release -M -t "$P" --uti "$UTI" target/ src/
 
 ### .exe
-
 if [ ! -f "target/love-win.zip" ]; then wget "$LZ" -O "target/love-win.zip"; fi
 #cp ~/downloads/love-0.10.1-win32.zip "target/love-win.zip"
 unzip -o "target/love-win.zip" -d "target"

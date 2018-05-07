@@ -12,15 +12,15 @@ addons:
     - luarocks
     - libzip-dev
     - fakeroot
-    # Handle git submodules yourself
 git:
+    # Handle git submodules yourself
     submodules: false
 before_install:
-        - luarocks install --local love-releases
+        - luarocks install --local love-release
         #  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
         #  - git submodule update --init --recursive
         #  - luarocks install --local lpeg
-        #  - "`luarocks path`" # execute the luarocks output - sets the paths for 'local' tree
+        - "`luarocks path`" # execute the luarocks output - sets the paths for 'local' tree
 
 script: "[[ -n $TRAVIS_TAG ]] && ./build.sh web || ./build.sh" # web only for tags
 deploy:

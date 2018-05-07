@@ -16,7 +16,9 @@ A="premek"
 UTI="com.github.premek.$P"
 
 LVU="11.1"
-LZ="https://bitbucket.org/rude/love/downloads/love-${LV}.0-win32.zip"
+LZ="https://bitucket.org/rude/love/downloads/love-${LVU}-win32.zip"
+
+LV=$LVU".0"
 
 
 ### clean
@@ -52,16 +54,16 @@ find . -iname "*.lua" | xargs luac -p || { echo 'luac parse test failed' ; exit 
 mkdir "target"
 
 ### .love
-love-release -t "$P" target/ src/
+love-release -t "$P" target/ src/ || { echo '.love failed' ; exit 1; }
 
 ### .deb
-love-release -D -p "$P" -t "$T" -u "$U" -v "$V" -d "$T" -a "$A" -e "$E" target/ src/
+love-release -D -p "$P" -t "$T" -u "$U" -v "$V" -d "$T" -a "$A" -e "$E" target/ src/ || { echo '.deb failed' ; exit 1; }
 
 ### MacOS
-love-release -M -t "$P" --uti "$UTI" target/ src/
+love-release -M -t "$P" --uti "$UTI" target/ src/ || { echo 'macos failed' ; exit 1; }
 
 ### .exe
-if [ ! -f "target/love-win.zip" ]; then wget "$LZ" -O "target/love-win.zip"; fi
+if [ ! -f "target/love-win.zip" ]; then wget "$LZ" -O "target/love-win.zip" || exit 1; fi
 #cp ~/downloads/love-0.10.1-win32.zip "target/love-win.zip"
 unzip -o "target/love-win.zip" -d "target"
 

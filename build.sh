@@ -16,7 +16,7 @@ A="premek"
 UTI="com.github.premek.$P"
 
 LVU="11.1"
-LZ="https://bitucket.org/rude/love/downloads/love-${LVU}-win32.zip"
+LZ="https://bitbucket.org/rude/love/downloads/love-${LVU}-win32.zip"
 
 LV=$LVU".0"
 

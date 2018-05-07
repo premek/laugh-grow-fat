@@ -20,8 +20,11 @@ before_install:
         #  - git submodule update --init --recursive
         #  - luarocks install --local lpeg
         #- "`luarocks path`" # execute the luarocks output - sets the paths for 'local' tree
-        - luarocks install --local love-release
+        - luarocks install --local luarocks # update
+        - ~/.luarocks/bin/luarocks install --local love-release
         - export PATH="~/.luarocks/bin:$PATH"
+        - echo $PATH
+        - cat ~/.luarocks/bin/love-release
 script: "[[ -n $TRAVIS_TAG ]] && ./build.sh web || ./build.sh" # web only for tags
 deploy:
   provider: releases

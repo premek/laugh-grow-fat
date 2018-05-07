@@ -21,8 +21,7 @@ before_install:
         #  - luarocks install --local lpeg
         #- "`luarocks path`" # execute the luarocks output - sets the paths for 'local' tree
         - luarocks install --local love-release
-        - luarocks path --bin
-        - eval $(luarocks path --bin)
+        - export PATH="~/.luarocks/bin:$PATH"
 script: "[[ -n $TRAVIS_TAG ]] && ./build.sh web || ./build.sh" # web only for tags
 deploy:
   provider: releases

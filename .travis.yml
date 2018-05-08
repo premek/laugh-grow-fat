@@ -19,6 +19,7 @@ before_install:
         - sudo cat /etc/apt/sources.list
         - sudo sed -i 's/trusty/xenial/g' /etc/apt/sources.list && sudo apt-get update -q
         - sudo apt-get install apt
+        - wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.9_amd64.deb && sudo dpkg -i libstdc++*
         - sudo sed -i 's/xenial/bionic/g' /etc/apt/sources.list && sudo apt-get update -q
         - sudo apt-get install   libzip-dev luarocks lua5.1 fakeroot
 

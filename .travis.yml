@@ -20,7 +20,7 @@ before_install:
         - [[ -n $TRAVIS_TAG ]] && sudo apt-get install -y  libzip-dev luarocks lua5.1 fakeroot 
         - [[ -n $TRAVIS_TAG ]] && luarocks install --local luarocks # update
         - [[ -n $TRAVIS_TAG ]] && luarocks install --local love-release
-        - [[ -n $TRAVIS_TAG ]] && `luarocks path --bin` # execute the luarocks output - sets the paths for 'local' tree
+        - "[[ -n $TRAVIS_TAG ]] && `luarocks path --bin`" # execute the luarocks output - sets the paths for 'local' tree
         #- export PATH="~/.luarocks/bin:$PATH"
           
 script: "if [[ -n $TRAVIS_TAG ]] ; then ./build.sh dist; ./build.sh web; else ./build.sh; fi" # web only for tags

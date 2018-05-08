@@ -2,7 +2,7 @@
 
 
 language: bash
-sudo: true # for libzip - until travis updates to newer image
+sudo: true # for libzip (which is needed for love-release) - until travis updates to newer image
 install: true
 addons:
   apt:
@@ -16,14 +16,11 @@ git:
 before_install:
         - test -f .gitmodules && sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules && git submodule update --init --recursive || echo "no gitmodules"
 
-        - sudo cat /etc/apt/sources.list
-        - sudo sed -i 's/trusty/xenial/g' /etc/apt/sources.list && sudo apt-get update -q && sudo apt-get upgrade -y
-
-        - sudo apt-get install -y  libzip-dev luarocks lua5.1 fakeroot 
-
-        - luarocks install --local luarocks # update
-        - luarocks install --local love-release
-        - "`luarocks path --bin`" # execute the luarocks output - sets the paths for 'local' tree
+        - [[ -n $TRAVIS_TAG ]] && sudo sed -i 's/trusty/xenial/g' /etc/apt/sources.list && sudo apt-get update -q && sudo apt-get upgrade -y
+        - [[ -n $TRAVIS_TAG ]] && sudo apt-get install -y  libzip-dev luarocks lua5.1 fakeroot 
+        - [[ -n $TRAVIS_TAG ]] && luarocks install --local luarocks # update
+        - [[ -n $TRAVIS_TAG ]] && luarocks install --local love-release
+        - [[ -n $TRAVIS_TAG ]] && `luarocks path --bin` # execute the luarocks output - sets the paths for 'local' tree
         #- export PATH="~/.luarocks/bin:$PATH"
           
 script: "if [[ -n $TRAVIS_TAG ]] ; then ./build.sh dist; ./build.sh web; else ./build.sh; fi" # web only for tags

@@ -26,7 +26,7 @@ before_install:
         - "`luarocks path --bin`" # execute the luarocks output - sets the paths for 'local' tree
         #- export PATH="~/.luarocks/bin:$PATH"
           
-script: "[[ -n $TRAVIS_TAG ]] && ./build.sh web || ./build.sh" # web only for tags
+script: "if [[ -n $TRAVIS_TAG ]] ; then ./build.sh dist; ./build.sh web; else ./build.sh; fi" # web only for tags
 deploy:
   provider: releases
   skip_cleanup: true

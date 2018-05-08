@@ -4,12 +4,6 @@ set -x
 
 P="laugh-grow-fat"
 T="Laugh and Grow Fat"
-
-#version from git - first char has to be number
-V="`git describe --tags`"
-until [ "${V:0:1}" -eq "${V:0:1}" ] 2>/dev/null; do V="${V:1}"; done
-if test -z "$V"; then V="snapshot"; fi;
-
 U="https://github.com/premek/$P"
 E="premysl.vyhnal+debian@gmail.com"
 A="premek"
@@ -20,6 +14,18 @@ LZ="https://bitbucket.org/rude/love/downloads/love-${LVU}-win32.zip"
 
 LV=$LVU".0"
 
+#version from git - first char has to be number
+V="`git describe --tags`"
+until [ "${V:0:1}" -eq "${V:0:1}" ] 2>/dev/null; do V="${V:1}"; done
+if test -z "$V"; then V="snapshot"; fi;
+
+
+
+### test
+
+find . -iname "*.lua" | xargs luac -p || { echo 'luac parse test failed' ; exit 1; }
+
+
 
 ### clean
 
@@ -27,6 +33,7 @@ if [ "$1" == "clean" ]; then
  rm -rf "target"
  exit;
 fi
+
 
 
 ### deploy web version to github pages
@@ -46,9 +53,9 @@ fi
 
 
 
-##### build #####
+##### build binary/dist packages #####
 
-find . -iname "*.lua" | xargs luac -p || { echo 'luac parse test failed' ; exit 1; }
+if [ "$1" == "dist" ]; then
 
 
 mkdir "target"
@@ -64,9 +71,7 @@ love-release -M -t "$P" --uti "$UTI" target/ src/ || { echo 'macos failed' ; exi
 
 ### .exe
 if [ ! -f "target/love-win.zip" ]; then wget "$LZ" -O "target/love-win.zip" || exit 1; fi
-#cp ~/downloads/love-0.10.1-win32.zip "target/love-win.zip"
 unzip -o "target/love-win.zip" -d "target"
-
 tmp="target/tmp/"
 mkdir -p "$tmp/$P"
 cat "target/love-${LV}-win32/love.exe" "target/${P}.love" > "$tmp/${P}/${P}.exe"
@@ -74,8 +79,11 @@ cp  target/love-"${LV}"-win32/*dll target/love-"${LV}"-win32/license* "$tmp/$P"
 cd "$tmp"
 zip -9 -r - "$P" > "${P}-win.zip"
 cd -
-cp "$tmp/${P}-win.zip" "target/"
+mv "$tmp/${P}-win.zip" "target/"
 rm -r "$tmp"
+
+fi #dist
+
 
 
 ### web

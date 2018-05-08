@@ -14,7 +14,7 @@ git:
     # Handle git submodules yourself
     submodules: false
 before_install:
-        - test -f .gitmodules && sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules && git submodule update --init --recursive
+        - test -f .gitmodules && sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules && git submodule update --init --recursive || echo "no gitmodules"
 
         - sudo add-apt-repository ppa:ondrej/php -y
         - sudo apt-get update -q

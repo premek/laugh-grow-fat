@@ -7,26 +7,29 @@ install: true
 addons:
   apt:
     packages:
-    - lua5.1
-    - luarocks
-    - fakeroot
+            #    - lua5.1
+            #    - luarocks
+            #    - fakeroot
 git:
-    # Handle git submodules yourself
-    submodules: false
+    submodules: false # Handle git submodules yourself
+
 before_install:
         - test -f .gitmodules && sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules && git submodule update --init --recursive || echo "no gitmodules"
 
-        - sudo add-apt-repository ppa:ondrej/php -y
+        - sudo cat /etc/apt/sources.list
+        - sudo sed -i 's/trusty/bionic/g' /etc/apt/sources.list
         - sudo apt-get update -q
-        - sudo apt-get install libzip-dev
+        - sudo apt-get install   libzip-dev luarocks lua5.1 fakeroot
 
         #  - luarocks install --local lpeg
         #- "`luarocks path`" # execute the luarocks output - sets the paths for 'local' tree
 
-        - luarocks install --local luarocks # update
-        - export PATH="~/.luarocks/bin:$PATH"
+        #- luarocks install --local luarocks # update
+        #- export PATH="~/.luarocks/bin:$PATH"
         - luarocks install --local love-release
         - cat ~/.luarocks/bin/love-release
+        - echo $PATH
+          
 script: "[[ -n $TRAVIS_TAG ]] && ./build.sh web || ./build.sh" # web only for tags
 deploy:
   provider: releases

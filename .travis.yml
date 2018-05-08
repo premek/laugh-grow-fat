@@ -18,7 +18,7 @@ before_install:
 
         - sudo cat /etc/apt/sources.list
         - sudo sed -i 's/trusty/xenial/g' /etc/apt/sources.list && sudo apt-get update -q && sudo apt-get upgrade -y
-          #- sudo sed -i 's/xenial/bionic/g' /etc/apt/sources.list && sudo apt-get update -q && sudo apt-get dist-upgrade
+        - sudo sed -i 's/xenial/bionic/g' /etc/apt/sources.list && sudo apt-get update -q #&& sudo apt-get dist-upgrade
         - sudo apt-get install -y  libzip-dev luarocks lua5.1 fakeroot 
 
         #  - luarocks install --local lpeg

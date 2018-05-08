@@ -4,12 +4,12 @@
 language: bash
 sudo: true # for libzip (which is needed for love-release) - until travis updates to newer image
 install: true
-#addons:
-#  apt:
-#    packages:
-            #    - lua5.1
-            #    - luarocks
-            #    - fakeroot
+addons:
+  apt:
+    packages:
+      - lua5.1
+      # - luarocks
+      # - fakeroot
 git:
     submodules: false # Handle git submodules yourself
 
@@ -17,7 +17,7 @@ before_install:
         - test -f .gitmodules && sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules && git submodule update --init --recursive || echo "no gitmodules"
 
         - if [[ -n "$TRAVIS_TAG" ]] ; then sudo sed -i 's/trusty/xenial/g' /etc/apt/sources.list && sudo apt-get update -q && sudo apt-get upgrade -y; fi
-        - if [[ -n "$TRAVIS_TAG" ]] ; then sudo apt-get install -y  libzip-dev luarocks lua5.1 fakeroot ; fi
+        - if [[ -n "$TRAVIS_TAG" ]] ; then sudo apt-get install -y  libzip-dev luarocks fakeroot ; fi
         - if [[ -n "$TRAVIS_TAG" ]] ; then luarocks install --local luarocks; fi # update
         - if [[ -n "$TRAVIS_TAG" ]] ; then luarocks install --local love-release; fi
         - if [[ -n "$TRAVIS_TAG" ]] ; then `luarocks path --bin` ; fi # execute the luarocks output - sets the paths for 'local' tree

@@ -17,8 +17,9 @@ before_install:
         - test -f .gitmodules && sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules && git submodule update --init --recursive || echo "no gitmodules"
 
         - sudo cat /etc/apt/sources.list
-        - sudo sed -i 's/trusty/bionic/g' /etc/apt/sources.list
-        - sudo apt-get update -q
+        - sudo sed -i 's/trusty/xenial/g' /etc/apt/sources.list && sudo apt-get update -q
+        - sudo apt-get install apt
+        - sudo sed -i 's/trusty/bionic/g' /etc/apt/sources.list && sudo apt-get update -q
         - sudo apt-get install   libzip-dev luarocks lua5.1 fakeroot
 
         #  - luarocks install --local lpeg

@@ -2,28 +2,31 @@
 
 
 language: bash
-sudo: false
+sudo: true # for libzip - until travis updates to newer image
 install: true
 addons:
   apt:
     packages:
     - lua5.1
-    - python2.7
     - luarocks
-    - libzip-dev
     - fakeroot
 git:
     # Handle git submodules yourself
     submodules: false
 before_install:
-        #  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-        #  - git submodule update --init --recursive
+        - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+        - git submodule update --init --recursive
+
+        - sudo add-apt-repository ppa:ondrej/php -y
+        - sudo apt-get update -q
+        - sudo apt-get install libzip-dev
+
         #  - luarocks install --local lpeg
         #- "`luarocks path`" # execute the luarocks output - sets the paths for 'local' tree
+
         - luarocks install --local luarocks # update
-        - ~/.luarocks/bin/luarocks install --local love-release
         - export PATH="~/.luarocks/bin:$PATH"
-        - echo $PATH
+        - luarocks install --local love-release
         - cat ~/.luarocks/bin/love-release
 script: "[[ -n $TRAVIS_TAG ]] && ./build.sh web || ./build.sh" # web only for tags
 deploy:

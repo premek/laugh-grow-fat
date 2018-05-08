@@ -4,9 +4,9 @@
 language: bash
 sudo: true # for libzip (which is needed for love-release) - until travis updates to newer image
 install: true
-addons:
-  apt:
-    packages:
+#addons:
+#  apt:
+#    packages:
             #    - lua5.1
             #    - luarocks
             #    - fakeroot
@@ -16,11 +16,11 @@ git:
 before_install:
         - test -f .gitmodules && sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules && git submodule update --init --recursive || echo "no gitmodules"
 
-        - [[ -n $TRAVIS_TAG ]] && sudo sed -i 's/trusty/xenial/g' /etc/apt/sources.list && sudo apt-get update -q && sudo apt-get upgrade -y
-        - [[ -n $TRAVIS_TAG ]] && sudo apt-get install -y  libzip-dev luarocks lua5.1 fakeroot 
-        - [[ -n $TRAVIS_TAG ]] && luarocks install --local luarocks # update
-        - [[ -n $TRAVIS_TAG ]] && luarocks install --local love-release
-        - "[[ -n $TRAVIS_TAG ]] && `luarocks path --bin`" # execute the luarocks output - sets the paths for 'local' tree
+        - if [[ -n "$TRAVIS_TAG" ]] ; then sudo sed -i 's/trusty/xenial/g' /etc/apt/sources.list && sudo apt-get update -q && sudo apt-get upgrade -y; fi
+        - if [[ -n "$TRAVIS_TAG" ]] ; then sudo apt-get install -y  libzip-dev luarocks lua5.1 fakeroot ; fi
+        - if [[ -n "$TRAVIS_TAG" ]] ; then luarocks install --local luarocks; fi # update
+        - if [[ -n "$TRAVIS_TAG" ]] ; then luarocks install --local love-release; fi
+        - if [[ -n "$TRAVIS_TAG" ]] ; then `luarocks path --bin` ; fi # execute the luarocks output - sets the paths for 'local' tree
         #- export PATH="~/.luarocks/bin:$PATH"
           
 script: "if [[ -n $TRAVIS_TAG ]] ; then ./build.sh dist; ./build.sh web; else ./build.sh; fi" # web only for tags
@@ -32,7 +32,7 @@ deploy:
     secure: "hdjCgtTqQLMJcrpPKTEKkGP0PejAgNDqOpLPwISDR7ObBE2XBb8n2aDZ62fX1gNvLEpCg2OC/l3Fxc8UpabKxvkIhyHtnIVUoPOChmb9KW7E/GhB2GKLD1Eg7LvBXd31AFaz9xuvHzUQCW+SNO04N5n+F3ZqeuuEDxy0cp3RcX25aP9DZdHLw9/euIMvdlvT5WM5J/2PKa49ADjOAmC/ToQD3AeXGoXCKXXUOxC2dB1txf9Wf1VWqmxe+Kbd5xE9kUliuVX9TS8K4LdKSw5iA7EDTsoExJQkVSAKcD5vP16xVlayrJQCdOFNixyyprGKqm54cVZvVvRxOE44ZExQAetNpOxNgDAgcKSPEezFXzSMmRLpeBpUjw5MEQAEduy2EdsRQhsMV/lOK70m2P9N4ktDA8xmZoGFUYEyTxR/de1Yuf1A4j2k+zQuanqE0AK5yCQsj4+dKEqogzvNTA6TGJI/irDnajGB4XAWICCxyildyYI3BM58azQ2PVPqd1kapOXCGG8ORR9ooOZKUV0DZ21b+kmy4mj7nJVnsvjzwvvc6coMQY/HcEmzZHFxkGPTgLX5bD44mjeI54u8ubQmhpIr6KKr/13Y1XPpTlKyMi0vkiJjpLthSSAEWzaLFrH2hzi4cs18e2JePQ+AGeydk1qYh0etrPD6b0gDdnLkINA="
   file_glob: true
   file:
-  - target/laugh-grow-fat.*
+    - target/laugh-grow-fat.*
   on:
     tags: true
     all_branches: true

@@ -102,7 +102,9 @@ cp -r love.js/src/release/ "$P-web"
 cd "$P-web"
 sed -ie 's/{{memory}}/16777216/' index.html
 sed -ie "s/{{title}}/$T/" index.html
-sed -ie "s/{{arguments}}//" index.html
+sed -ie "s/arguments:.*{{arguments}}/\/\/arguments/" index.html
+sed -ie "s/  t.version = \"11.1\"/--t.version = \"11.1\"/" game.data
+
 python ../love.js/emscripten/tools/file_packager.py game.data --preload ../../src/@/ --js-output=game.js
 python ../love.js/emscripten/tools/file_packager.py game.data --preload ../../src/@/ --js-output=game.js
 #yes, two times!

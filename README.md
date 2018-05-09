@@ -4,7 +4,7 @@
 # Laugh & Grow Fat
 Inspired by [this](http://famicase.com/17/softs/076.html) and made for [LCD-Jam](https://itch.io/jam/lcd-jam). 
 
-- **[Download here](../../releases)**
+- **[Download here](../../releases)** (Windows, MacOS, Android debug APK, .DEB, .LOVE)
 - Experimental [browser version](https://premek.github.io/laugh-grow-fat/)
 
 

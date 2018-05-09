@@ -31,7 +31,7 @@ deploy:
     secure: "hdjCgtTqQLMJcrpPKTEKkGP0PejAgNDqOpLPwISDR7ObBE2XBb8n2aDZ62fX1gNvLEpCg2OC/l3Fxc8UpabKxvkIhyHtnIVUoPOChmb9KW7E/GhB2GKLD1Eg7LvBXd31AFaz9xuvHzUQCW+SNO04N5n+F3ZqeuuEDxy0cp3RcX25aP9DZdHLw9/euIMvdlvT5WM5J/2PKa49ADjOAmC/ToQD3AeXGoXCKXXUOxC2dB1txf9Wf1VWqmxe+Kbd5xE9kUliuVX9TS8K4LdKSw5iA7EDTsoExJQkVSAKcD5vP16xVlayrJQCdOFNixyyprGKqm54cVZvVvRxOE44ZExQAetNpOxNgDAgcKSPEezFXzSMmRLpeBpUjw5MEQAEduy2EdsRQhsMV/lOK70m2P9N4ktDA8xmZoGFUYEyTxR/de1Yuf1A4j2k+zQuanqE0AK5yCQsj4+dKEqogzvNTA6TGJI/irDnajGB4XAWICCxyildyYI3BM58azQ2PVPqd1kapOXCGG8ORR9ooOZKUV0DZ21b+kmy4mj7nJVnsvjzwvvc6coMQY/HcEmzZHFxkGPTgLX5bD44mjeI54u8ubQmhpIr6KKr/13Y1XPpTlKyMi0vkiJjpLthSSAEWzaLFrH2hzi4cs18e2JePQ+AGeydk1qYh0etrPD6b0gDdnLkINA="
   file_glob: true
   file:
-    - target/laugh-grow-fat.*
+    - target/laugh-grow-fat*
   on:
     tags: true
     all_branches: true

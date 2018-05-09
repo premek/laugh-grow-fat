@@ -89,7 +89,7 @@ fi #dist
 ### web
 
 if [ "$1" == "web" ]; then
-
+mkdir "target"	
 cd target
 rm -rf love.js *-web*
 git clone https://github.com/TannerRogalsky/love.js.git
@@ -97,16 +97,18 @@ cd love.js
 git checkout a74d9c862e9d9671a100a5565f6eb40411706843
 git submodule update --init --recursive
 cd ..
-
+#todo custom template/theme
 cp -r love.js/src/release/ "$P-web"
 cd "$P-web"
 sed -ie 's/{{memory}}/16777216/' index.html
 sed -ie "s/{{title}}/$T/" index.html
 sed -ie "s/arguments:.*{{arguments}}/\/\/arguments/" index.html
-sed -ie "s/  t.version = \"11.1\"/--t.version = \"11.1\"/" game.data
 
 python ../love.js/emscripten/tools/file_packager.py game.data --preload ../../src/@/ --js-output=game.js
 python ../love.js/emscripten/tools/file_packager.py game.data --preload ../../src/@/ --js-output=game.js
+
+sed -ie "s/  t.version = \"11.1\"/--t.version = \"11.1\"/" game.data # oh no!
+
 #yes, two times!
 # python -m SimpleHTTPServer 8000
 cd ..

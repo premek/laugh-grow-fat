@@ -7,10 +7,14 @@ T="Laugh and Grow Fat"
 U="https://github.com/premek/$P"
 E="premysl.vyhnal+debian@gmail.com"
 A="premek"
-UTI="com.github.premek.$P"
+PACKAGE="com.github.premek.${P//-/}"
 
 LVU="11.1"
 LZ="https://bitbucket.org/rude/love/downloads/love-${LVU}-win32.zip"
+APK="https://bitbucket.org/rude/love/downloads/love-${LVU}-android.apk"
+APKSIGNER="https://github.com/patrickfav/uber-apk-signer/releases/download/v0.8.4/uber-apk-signer-0.8.4.jar"
+APKTOOL="https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.3.3.jar"
+APKVersionCode=1 #TODO integer increased for each ver. - from tag name?
 
 LV=$LVU".0"
 
@@ -67,10 +71,10 @@ love-release -t "$P" target/ src/ || { echo '.love failed' ; exit 1; }
 love-release -D -p "$P" -t "$T" -u "$U" -v "$V" -d "$T" -a "$A" -e "$E" target/ src/ || { echo '.deb failed' ; exit 1; }
 
 ### MacOS
-love-release -M -t "$P" --uti "$UTI" target/ src/ || { echo 'macos failed' ; exit 1; }
+love-release -M -t "$P" --uti "$PACKAGE" target/ src/ || { echo 'macos failed' ; exit 1; }
 
 ### .exe
-if [ ! -f "target/love-win.zip" ]; then wget "$LZ" -O "target/love-win.zip" || exit 1; fi
+wget -c "$LZ" -O "target/love-win.zip" || exit 1
 unzip -o "target/love-win.zip" -d "target"
 tmp="target/tmp/"
 mkdir -p "$tmp/$P"
@@ -82,6 +86,35 @@ cd -
 mv "$tmp/${P}-win.zip" "target/"
 rm -r "$tmp"
 
+### android
+wget -c "$APKTOOL" -O "target/apktool.jar" &
+wget -c "$APK" -O "target/love-android.apk" &
+wget -c "$APKSIGNER" -O target/uber-apk-signer.jar &
+wait
+java -jar target/apktool.jar d -s -o target/love_apk_decoded target/love-android.apk
+mkdir target/love_apk_decoded/assets
+cp "target/${P}.love" target/love_apk_decoded/assets/game.love
+#TODO icon
+cat <<EOF > target/love_apk_decoded/AndroidManifest.xml
+<?xml version="1.0" encoding="utf-8" standalone="no"?> <manifest package="${PACKAGE}" android:versionCode="${APKVersionCode}" android:versionName="${V}" android:installLocation="auto" xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-feature android:glEsVersion="0x00020000"/>
+    <application android:allowBackup="true" android:icon="@drawable/love" android:label="${T}" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        <activity android:configChanges="orientation|screenSize" android:label="${T}" android:launchMode="singleTop" android:name="org.love2d.android.GameActivity" android:screenOrientation="sensorLandscape" > <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="tv.ouya.intent.category.GAME"/>
+            </intent-filter> </activity> </application> </manifest>
+EOF
+sed -ie "s/minSdkVersion.*/minSdkVersion: '16'/" target/love_apk_decoded/apktool.yml 
+sed -ie "s/targetSdkVersion.*/targetSdkVersion: '16'/" target/love_apk_decoded/apktool.yml 
+java -jar target/apktool.jar b -o "target/$P.apk" target/love_apk_decoded
+java -jar target/uber-apk-signer.jar --apks target/laugh-grow-fat.apk
+rm target/laugh-grow-fat.apk # not installable, do not dist
+#TODO prod sign
 fi #dist
 
 

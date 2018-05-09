@@ -1,7 +1,11 @@
 # curl -u premysl.vyhnal@gmail.com   -d '{"scopes":["public_repo"],"note":"XXX token name XXX"}'   https://api.github.com/authorizations
 
 
-language: bash
+language: android
+android:
+  components:
+    - build-tools-26.0.2
+    - android-26
 sudo: true # for libzip (which is needed for love-release) - until travis updates to newer image
 install: true
 addons:

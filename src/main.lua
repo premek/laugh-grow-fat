@@ -157,3 +157,24 @@ function love.mousereleased(x, y, button)
 	elseif x>lg:getWidth()*0.55 then right() end
    end
 end
+
+
+function love.joystickreleased(joystick, button)
+	if not playing and not gameover then reset() end
+	if button == 4 or button == 5 or button == 7 then left() end
+	if button == 2 or button == 6 or button == 8 then right() end
+end
+
+function love.joystickhat( joystick, hat, direction )
+	if not playing and not gameover then reset() end
+	if direction == 'l' then left() end
+	if direction == 'r' then right() end
+end
+
+function love.joystickaxis( joystick, axis, value )
+	if not playing and not gameover then reset()
+	elseif axis == 1 then
+		if value < 0 then left() end
+		if value > 0 then right() end
+	end
+end

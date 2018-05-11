@@ -25,8 +25,8 @@ before_install:
         - if [[ -n "$TRAVIS_TAG" ]] ; then luarocks install --local luarocks; fi # update
         - if [[ -n "$TRAVIS_TAG" ]] ; then luarocks install --local love-release; fi
 
-        - "`luarocks path --bin`" # execute the luarocks output - sets the paths for 'local' tree
         - export PATH="~/.luarocks/bin:$PATH"
+        - "`luarocks path --bin`" # execute the luarocks output - sets the paths for 'local' tree
 
         - luarocks install --local luacheck
 

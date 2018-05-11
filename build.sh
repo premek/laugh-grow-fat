@@ -23,7 +23,7 @@ until [ "${V:0:1}" -eq "${V:0:1}" ] 2>/dev/null; do V="${V:1}"; done
 if test -z "$V"; then V="snapshot"; fi;
 
 APKVersionCode=`echo "$V" | sed -e 's/\([0-9]\)[.-]\([0-9]\)[.-]\([0-9]\)[.-].*/\1 \2 \3/g' | xargs printf "%03d%03d%03d"`
-[[ "$APKVersionCode" -eq "$APKVersionCode" ]] || { echo "APKVersionCode Not a number"; exit 1; }
+[[ 1"$APKVersionCode" -eq 1"$APKVersionCode" ]] || { echo "APKVersionCode Not a number"; exit 1; }
 
 
 ### test

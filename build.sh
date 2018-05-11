@@ -14,7 +14,6 @@ LZ="https://bitbucket.org/rude/love/downloads/love-${LVU}-win32.zip"
 APK="https://bitbucket.org/rude/love/downloads/love-${LVU}-android.apk"
 APKSIGNER="https://github.com/patrickfav/uber-apk-signer/releases/download/v0.8.4/uber-apk-signer-0.8.4.jar"
 APKTOOL="https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.3.3.jar"
-APKVersionCode=1 #TODO integer increased for each ver. - from tag name?
 
 LV=$LVU".0"
 
@@ -23,13 +22,16 @@ V="`git describe --tags`"
 until [ "${V:0:1}" -eq "${V:0:1}" ] 2>/dev/null; do V="${V:1}"; done
 if test -z "$V"; then V="snapshot"; fi;
 
+APKVersionCode=`echo "$V" | sed -e 's/\([0-9]\)[.-]\([0-9]\)[.-]\([0-9]\)[.-].*/\1 \2 \3/g' | xargs printf "%03d%03d%03d"`
+[[ "$APKVersionCode" -eq "$APKVersionCode" ]] || { echo "APKVersionCode Not a number"; exit 1; }
 
 
 ### test
 
 find . -iname "*.lua" | xargs luac -p || { echo 'luac parse test failed' ; exit 1; }
 
-luacheck . --codes --globals love || { echo 'luacheck failed' ; exit 2; }
+#unused variables has to start with _
+luacheck . --codes --globals love --ignore "_.*" || { echo 'luacheck failed' ; exit 2; }
 
 
 

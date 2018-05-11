@@ -28,9 +28,9 @@ local emptyLines = nil
 
 
 
-function reset()
+local function reset()
 lives=3
-score=0	
+score=0
 pots={_,_,_,X,_,_,_}
 sploshes={_,_,_,_,_,_,_}
 foods={
@@ -55,7 +55,7 @@ function love.draw()
 
 	local x0 = math.floor(math.max(0, (lgw-res.img.bg:getWidth())/2))
 	local y0 = math.floor(math.max(0, (lgh-res.img.bg:getHeight())/2))
-	lg.setColor(1,1,1)	
+	lg.setColor(1,1,1)
 	lg.draw(res.img.bg, x0, y0)
 
 	lg.setFont(res.font.lcd)
@@ -67,14 +67,14 @@ function love.draw()
 			if visible then lg.draw(res.img.food[food], x0+lx, y0+ly+(line-1)*34) end
 		end
 	end
-	
+
 	for pot, visible in ipairs(pots) do
 		if visible then lg.draw(res.img.pot, x0+lx+5+(pot-1)*potw, y0+310) end
 	end
 	for splosh, visible in ipairs(sploshes) do
 		if visible then lg.draw(res.img.splosh, x0+lx+5+(splosh-1)*potw, y0+335) end
 	end
-	for cook=0, lives-1 do	
+	for cook=0, lives-1 do
 		lg.draw(res.img.cook, x0+lx+cook*25, y0+100)
 	end
 
@@ -100,14 +100,14 @@ function love.update(dt)
 	for pos, foodPresent in ipairs(foods[#foods]) do
 		if foodPresent then
 			if pots[pos] then
-				score = score+1 
+				score = score+1
 				res.sfx.hit.src:play()
 			else
-				sploshes[pos] = X				
+				sploshes[pos] = X
 				lives = lives - 1
-				if lives == 0 then 
+				if lives == 0 then
 					playing=false
-					gameover=true 
+					gameover=true
 					res.sfx.gameover.src:play()
 				else
 					res.sfx.fail.src:play()
@@ -126,7 +126,7 @@ function love.update(dt)
 	end
 end
 
-function left()
+local function left()
 	if not pots[1] then
 		--res.sfx.move.src:play()
 		table.remove(pots, 1)
@@ -134,7 +134,7 @@ function left()
 	end
 end
 
-function right()
+local function right()
 	if not pots[#pots] then
 		--res.sfx.move.src:play()
 		table.remove(pots, #pots)
@@ -150,7 +150,7 @@ function love.keypressed(key)
 	elseif key == 'right' then right() end
 end
 
-function love.mousereleased(x, y, button)
+function love.mousereleased(x, _y, button)
    if button == 1 then
 	if not playing and not gameover then reset()
 	elseif x<lg:getWidth()*0.45 then left()
@@ -159,19 +159,19 @@ function love.mousereleased(x, y, button)
 end
 
 
-function love.joystickreleased(joystick, button)
+function love.joystickreleased(_joystick, button)
 	if not playing and not gameover then reset() end
 	if button == 4 or button == 5 or button == 7 then left() end
 	if button == 2 or button == 6 or button == 8 then right() end
 end
 
-function love.joystickhat( joystick, hat, direction )
+function love.joystickhat(_joystick, _hat, direction )
 	if not playing and not gameover then reset() end
 	if direction == 'l' then left() end
 	if direction == 'r' then right() end
 end
 
-function love.joystickaxis( joystick, axis, value )
+function love.joystickaxis(_joystick, axis, value )
 	if not playing and not gameover then reset()
 	elseif axis == 1 then
 		if value < 0 then left() end

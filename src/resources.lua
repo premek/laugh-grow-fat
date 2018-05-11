@@ -4,7 +4,7 @@ local res = {
     off = {108/255,117/255,71/255},
     bg = {181/255,194/255,181/255}
   },
-   
+
   img = {
 	bg = love.graphics.newImage("img/bg.jpg"),
 	pot = love.graphics.newImage("img/pot.png"),
@@ -18,7 +18,7 @@ local res = {
 	  love.graphics.newImage("img/f5.png"),
 	  love.graphics.newImage("img/f6.png"),
 	  love.graphics.newImage("img/f7.png"),
-  	}
+	}
   },
 
   font = {

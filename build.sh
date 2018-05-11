@@ -29,6 +29,8 @@ if test -z "$V"; then V="snapshot"; fi;
 
 find . -iname "*.lua" | xargs luac -p || { echo 'luac parse test failed' ; exit 1; }
 
+luacheck . --codes --globals love || { echo 'luacheck failed' ; exit 2; }
+
 
 
 ### clean

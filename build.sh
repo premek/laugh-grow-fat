@@ -114,7 +114,7 @@ cat <<EOF > target/love_apk_decoded/AndroidManifest.xml
                 <category android:name="tv.ouya.intent.category.GAME"/>
             </intent-filter> </activity> </application> </manifest>
 EOF
-sed -ie "s/minSdkVersion.*/minSdkVersion: '26'/" target/love_apk_decoded/apktool.yml 
+sed -ie "s/minSdkVersion.*/minSdkVersion: '16'/" target/love_apk_decoded/apktool.yml 
 sed -ie "s/targetSdkVersion.*/targetSdkVersion: '26'/" target/love_apk_decoded/apktool.yml 
 java -jar target/apktool.jar b -o "target/$P.apk" target/love_apk_decoded
 java -jar target/uber-apk-signer.jar --apks target/laugh-grow-fat.apk

@@ -65,6 +65,7 @@ fi
 
 if [ "$1" == "dist" ]; then
 
+git diff -s --exit-code && git diff -s --cached --exit-code || { echo 'uncommited changes' ; exit 1; }
 
 mkdir "target"
 
@@ -113,8 +114,8 @@ cat <<EOF > target/love_apk_decoded/AndroidManifest.xml
                 <category android:name="tv.ouya.intent.category.GAME"/>
             </intent-filter> </activity> </application> </manifest>
 EOF
-sed -ie "s/minSdkVersion.*/minSdkVersion: '16'/" target/love_apk_decoded/apktool.yml 
-sed -ie "s/targetSdkVersion.*/targetSdkVersion: '16'/" target/love_apk_decoded/apktool.yml 
+sed -ie "s/minSdkVersion.*/minSdkVersion: '26'/" target/love_apk_decoded/apktool.yml 
+sed -ie "s/targetSdkVersion.*/targetSdkVersion: '26'/" target/love_apk_decoded/apktool.yml 
 java -jar target/apktool.jar b -o "target/$P.apk" target/love_apk_decoded
 java -jar target/uber-apk-signer.jar --apks target/laugh-grow-fat.apk
 rm target/laugh-grow-fat.apk # not installable, do not dist

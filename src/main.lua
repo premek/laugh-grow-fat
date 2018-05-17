@@ -88,8 +88,8 @@ function love.update(dt)
 	if not playing then return end
 	t=t+dt
 
-	slowness = math.max(0.1, 1-score/170)
-	emptyLines = math.max(0, math.ceil(4-(score+30)/50))
+	slowness = math.max(0.1, -0.2+60/(score+70))
+	emptyLines = math.max(0, math.ceil(4-(score+30)/40))
 
 	if t<slowness then return end
 	t=t-slowness
@@ -158,7 +158,6 @@ function love.mousereleased(x, _y, button)
    end
 end
 
-
 function love.joystickreleased(_joystick, button)
 	if not playing and not gameover then reset() end
 	if button == 4 or button == 5 or button == 7 then left() end
@@ -171,6 +170,7 @@ function love.joystickhat(_joystick, _hat, direction )
 	if direction == 'r' then right() end
 end
 
+--[[ breaks android
 function love.joystickaxis(_joystick, axis, value )
 	if not playing and not gameover then reset()
 	elseif axis == 1 then
@@ -178,3 +178,4 @@ function love.joystickaxis(_joystick, axis, value )
 		if value > 0 then right() end
 	end
 end
+--]]

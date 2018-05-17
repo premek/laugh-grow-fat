@@ -88,7 +88,7 @@ function love.update(dt)
 	if not playing then return end
 	t=t+dt
 
-	slowness = math.max(0.1, -0.2+60/(score+70))
+	slowness = math.max(0.1, 0+70/(score+100))
 	emptyLines = math.max(0, math.ceil(4-(score+30)/40))
 
 	if t<slowness then return end

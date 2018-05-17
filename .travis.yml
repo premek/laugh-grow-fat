@@ -13,6 +13,7 @@ addons:
     packages:
       - lua5.1
       - luarocks
+      - imagemagick # android icons
 git:
     submodules: false # Handle git submodules yourself
 

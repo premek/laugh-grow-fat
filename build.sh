@@ -100,7 +100,13 @@ wait
 java -jar target/apktool.jar d -s -o target/love_apk_decoded target/love-android.apk
 mkdir target/love_apk_decoded/assets
 cp "target/${P}.love" target/love_apk_decoded/assets/game.love
-#TODO icon
+
+convert -resize 48x48 resources/icon.png target/love_apk_decoded/res/drawable-mdpi/love.png
+convert -resize 72x72 resources/icon.png target/love_apk_decoded/res/drawable-hdpi/love.png
+convert -resize 96x96 resources/icon.png target/love_apk_decoded/res/drawable-xhdpi/love.png
+convert -resize 144x144 resources/icon.png target/love_apk_decoded/res/drawable-xxhdpi/love.png
+convert -resize 192x192 resources/icon.png target/love_apk_decoded/res/drawable-xxxhdpi/love.png
+
 cat <<EOF > target/love_apk_decoded/AndroidManifest.xml
 <?xml version="1.0" encoding="utf-8" standalone="no"?> <manifest package="${PACKAGE}" android:versionCode="${APKVersionCode}" android:versionName="${V}" android:installLocation="auto" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
